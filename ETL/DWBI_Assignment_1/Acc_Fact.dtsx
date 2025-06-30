@@ -1,0 +1,1830 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/21/2025 12:12:44 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SASIRU"
+  DTS:CreatorName="Sasiru\Sasiru Ranketh"
+  DTS:DTSID="{2190B7CB-817D-4960-877B-D6F98FB62E17}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5685.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Acc_Fact"
+  DTS:PackageType="5"
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{8614C83C-6268-4D72-8D57-C3C41C35AAFC}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{85584599-E955-46EE-BE26-0F4DA01D78A2}"
+      DTS:ObjectName="Flat File Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="D:\Uni Work\3 YR 2 SEM\DWBI Assignment 1\Data Sources\Accumalating_fact.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="3"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SalesID"
+              DTS:DTSID="{0F225777-D6A2-42EA-B966-0312C3EAA94F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000A_"
+              DTS:DataType="135"
+              DTS:TextQualified="True"
+              DTS:ObjectName="accm_txn_complete_time"
+              DTS:DTSID="{8B3144E8-7D95-430D-93E9-2CF2BBDAA0C5}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SASIRU\SQLDEVELOPER.DWBI_Assignment1_DW]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E5BE6B43-7EBC-4895-A07F-09588A47161A}"
+      DTS:ObjectName="SASIRU\SQLDEVELOPER.DWBI_Assignment1_DW">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=SASIRU\SQLDEVELOPER;Initial Catalog=DWBI_Assignment1_DW;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Acc_Fact-{E5BE6B43-7EBC-4895-A07F-09588A47161A}SASIRU\SQLDEVELOPER.DWBI_Assignment1_DW;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Accumalating Fact Table"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{B40D14F7-D822-4F7D-BB03-C5FBE61C7684}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Accumalating Fact Table"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Calculate txn_process_time_hrs"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Inputs[Derived Column Input].Columns[accm_txn_complete_time]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="accm_txn_complete_time"
+                      lineageId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[accm_txn_complete_time]" />
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Inputs[Derived Column Input].Columns[accm_txn_create_time]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="accm_txn_create_time"
+                      lineageId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[accm_txn_create_time]" />
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Inputs[Derived Column Input].Columns[txn_process_time_hours]"
+                      cachedDataType="i4"
+                      cachedName="txn_process_time_hours"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[txn_process_time_hours]"
+                      truncationRowDisposition="FailComponent"
+                      usageType="readWrite">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[DATEDIFF]("hh",#{Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[accm_txn_create_time]},#{Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[accm_txn_complete_time]})</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">DATEDIFF("hh",accm_txn_create_time,accm_txn_complete_time)</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Inputs[Derived Column Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Accumalating Fact Table\FactSales Sort"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="FactSales Sort"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[SalesID]"
+                      cachedDataType="i4"
+                      cachedName="SalesID"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[SalesID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[SalesPersonKey]"
+                      cachedDataType="i4"
+                      cachedName="SalesPersonKey"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[SalesPersonKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[CustomerKey]"
+                      cachedDataType="i4"
+                      cachedName="CustomerKey"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[CustomerKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[ProductKey]"
+                      cachedDataType="i4"
+                      cachedName="ProductKey"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[ProductKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[Quantity]"
+                      cachedDataType="i2"
+                      cachedName="Quantity"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[Quantity]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[Discount]"
+                      cachedDataType="numeric"
+                      cachedName="Discount"
+                      cachedPrecision="5"
+                      cachedScale="2"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[Discount]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[TotalPrice]"
+                      cachedDataType="cy"
+                      cachedName="TotalPrice"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[TotalPrice]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[SalesDateKey]"
+                      cachedDataType="i4"
+                      cachedName="SalesDateKey"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[SalesDateKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[TransactionNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="TransactionNumber"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[TransactionNumber]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[InsertDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="InsertDate"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[InsertDate]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[ModifiedDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ModifiedDate"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[ModifiedDate]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[accm_txn_create_time]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="accm_txn_create_time"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[accm_txn_create_time]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[accm_txn_complete_time]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="accm_txn_complete_time"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[accm_txn_complete_time]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input].Columns[txn_process_time_hours]"
+                      cachedDataType="i4"
+                      cachedName="txn_process_time_hours"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[txn_process_time_hours]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[SalesID]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[SalesID]"
+                      name="SalesID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[SalesID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[SalesPersonKey]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[SalesPersonKey]"
+                      name="SalesPersonKey">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[SalesPersonKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[CustomerKey]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[CustomerKey]"
+                      name="CustomerKey">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[CustomerKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[ProductKey]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[ProductKey]"
+                      name="ProductKey">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[ProductKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[Quantity]"
+                      dataType="i2"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[Quantity]"
+                      name="Quantity">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[Quantity]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[Discount]"
+                      dataType="numeric"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[Discount]"
+                      name="Discount"
+                      precision="5"
+                      scale="2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[Discount]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[TotalPrice]"
+                      dataType="cy"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[TotalPrice]"
+                      name="TotalPrice">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[TotalPrice]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[SalesDateKey]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[SalesDateKey]"
+                      name="SalesDateKey">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[SalesDateKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[TransactionNumber]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[TransactionNumber]"
+                      name="TransactionNumber">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[TransactionNumber]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[InsertDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[InsertDate]"
+                      name="InsertDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[InsertDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[ModifiedDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[ModifiedDate]"
+                      name="ModifiedDate">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[ModifiedDate]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[accm_txn_create_time]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[accm_txn_create_time]"
+                      name="accm_txn_create_time">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[accm_txn_create_time]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[accm_txn_complete_time]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[accm_txn_complete_time]"
+                      name="accm_txn_complete_time">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[accm_txn_complete_time]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[txn_process_time_hours]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[txn_process_time_hours]"
+                      name="txn_process_time_hours">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[txn_process_time_hours]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Accumalating Fact Table\Flat File Sort"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Flat File Sort"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Accumalating Fact Table\Flat File Sort.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Flat File Sort.Inputs[Sort Input].Columns[SalesID]"
+                      cachedDataType="i4"
+                      cachedName="SalesID"
+                      lineageId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output].Columns[SalesID]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Flat File Sort.Inputs[Sort Input].Columns[accm_txn_complete_time]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="accm_txn_complete_time"
+                      lineageId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output].Columns[accm_txn_complete_time]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Accumalating Fact Table\Flat File Sort.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Flat File Sort.Outputs[Sort Output].Columns[SalesID]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Flat File Sort.Outputs[Sort Output].Columns[SalesID]"
+                      name="SalesID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output].Columns[SalesID]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Flat File Sort.Outputs[Sort Output].Columns[accm_txn_complete_time]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Accumalating Fact Table\Flat File Sort.Outputs[Sort Output].Columns[accm_txn_complete_time]"
+                      name="accm_txn_complete_time">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output].Columns[accm_txn_complete_time]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Accumalating Fact Table\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">true</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Accumalating Fact Table\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Flat File Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Flat File Connection Manager]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output].Columns[SalesID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[SalesID]"
+                      lineageId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output].Columns[SalesID]"
+                      name="SalesID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output].Columns[accm_txn_complete_time]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[accm_txn_complete_time]"
+                      lineageId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output].Columns[accm_txn_complete_time]"
+                      name="accm_txn_complete_time"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[SalesID]"
+                      dataType="i4"
+                      name="SalesID" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[accm_txn_complete_time]"
+                      dataType="dbTimeStamp"
+                      name="accm_txn_complete_time" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Accumalating Fact Table\Get Not NULL Complete time"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Get Not NULL Complete time"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Accumalating Fact Table\Get Not NULL Complete time.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Get Not NULL Complete time.Inputs[Conditional Split Input].Columns[accm_txn_complete_time]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="accm_txn_complete_time"
+                      lineageId="Package\Accumalating Fact Table\Flat File Sort.Outputs[Sort Output].Columns[accm_txn_complete_time]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Accumalating Fact Table\Get Not NULL Complete time.Outputs[CompletedRows]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="CompletedRows"
+                  synchronousInputId="Package\Accumalating Fact Table\Get Not NULL Complete time.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">![ISNULL](#{Package\Accumalating Fact Table\Flat File Sort.Outputs[Sort Output].Columns[accm_txn_complete_time]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">!ISNULL(accm_txn_complete_time)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Accumalating Fact Table\Get Not NULL Complete time.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\Accumalating Fact Table\Get Not NULL Complete time.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Accumalating Fact Table\Get Not NULL Complete time.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Accumalating Fact Table\Get Not NULL Complete time.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Get Not NULL Complete time.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Get Not NULL Complete time.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Get Not NULL Complete time.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Get Not NULL Complete time.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Accumalating Fact Table\Load FactSales"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Load FactSales"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[FactSales]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Accumalating Fact Table\Load FactSales.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SASIRU\SQLDEVELOPER.DWBI_Assignment1_DW]"
+                  connectionManagerRefId="Package.ConnectionManagers[SASIRU\SQLDEVELOPER.DWBI_Assignment1_DW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[SalesID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[SalesID]"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[SalesID]"
+                      name="SalesID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[SalesPersonKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[SalesPersonKey]"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[SalesPersonKey]"
+                      name="SalesPersonKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[CustomerKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[CustomerKey]"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[CustomerKey]"
+                      name="CustomerKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[ProductKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[ProductKey]"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[ProductKey]"
+                      name="ProductKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[Quantity]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[Quantity]"
+                      name="Quantity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[Discount]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[Discount]"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[Discount]"
+                      name="Discount"
+                      precision="5"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[TotalPrice]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[TotalPrice]"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[TotalPrice]"
+                      name="TotalPrice"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[SalesDateKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[SalesDateKey]"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[SalesDateKey]"
+                      name="SalesDateKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[TransactionNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[TransactionNumber]"
+                      length="50"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[TransactionNumber]"
+                      name="TransactionNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[InsertDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[InsertDate]"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[InsertDate]"
+                      name="InsertDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[ModifiedDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[ModifiedDate]"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[ModifiedDate]"
+                      name="ModifiedDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[accm_txn_create_time]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[accm_txn_create_time]"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[accm_txn_create_time]"
+                      name="accm_txn_create_time"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[accm_txn_complete_time]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[accm_txn_complete_time]"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[accm_txn_complete_time]"
+                      name="accm_txn_complete_time"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[txn_process_time_hours]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[txn_process_time_hours]"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].Columns[txn_process_time_hours]"
+                      name="txn_process_time_hours"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[SalesID]"
+                      dataType="i4"
+                      name="SalesID" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[SalesPersonKey]"
+                      dataType="i4"
+                      name="SalesPersonKey" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[CustomerKey]"
+                      dataType="i4"
+                      name="CustomerKey" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[ProductKey]"
+                      dataType="i4"
+                      name="ProductKey" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                      dataType="i2"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[Discount]"
+                      dataType="numeric"
+                      name="Discount"
+                      precision="5"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[TotalPrice]"
+                      dataType="cy"
+                      name="TotalPrice" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[SalesDateKey]"
+                      dataType="i4"
+                      name="SalesDateKey" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[TransactionNumber]"
+                      dataType="wstr"
+                      length="50"
+                      name="TransactionNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[InsertDate]"
+                      dataType="dbTimeStamp"
+                      name="InsertDate" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[ModifiedDate]"
+                      dataType="dbTimeStamp"
+                      name="ModifiedDate" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[accm_txn_create_time]"
+                      dataType="dbTimeStamp"
+                      name="accm_txn_create_time" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[accm_txn_complete_time]"
+                      dataType="dbTimeStamp"
+                      name="accm_txn_complete_time" />
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output].ExternalColumns[txn_process_time_hours]"
+                      dataType="i4"
+                      name="txn_process_time_hours" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[SalesID]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[SalesID]"
+                      name="SalesID" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[SalesPersonKey]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[SalesPersonKey]"
+                      name="SalesPersonKey" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[CustomerKey]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[CustomerKey]"
+                      name="CustomerKey" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[ProductKey]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[ProductKey]"
+                      name="ProductKey" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                      dataType="i2"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                      name="Quantity" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[Discount]"
+                      dataType="numeric"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[Discount]"
+                      name="Discount"
+                      precision="5"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[TotalPrice]"
+                      dataType="cy"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[TotalPrice]"
+                      name="TotalPrice" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[SalesDateKey]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[SalesDateKey]"
+                      name="SalesDateKey" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[TransactionNumber]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[TransactionNumber]"
+                      name="TransactionNumber" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[InsertDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[InsertDate]"
+                      name="InsertDate" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[ModifiedDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[ModifiedDate]"
+                      name="ModifiedDate" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[accm_txn_create_time]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[accm_txn_create_time]"
+                      name="accm_txn_create_time" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[accm_txn_complete_time]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[accm_txn_complete_time]"
+                      name="accm_txn_complete_time" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[txn_process_time_hours]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[txn_process_time_hours]"
+                      name="txn_process_time_hours" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Accumalating Fact Table\Merge Join"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">2</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Accumalating Fact Table\Merge Join.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Merge Join.Inputs[Merge Join Left Input].Columns[SalesID]"
+                      cachedDataType="i4"
+                      cachedName="SalesID"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Accumalating Fact Table\Flat File Sort.Outputs[Sort Output].Columns[SalesID]" />
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Merge Join.Inputs[Merge Join Left Input].Columns[accm_txn_complete_time]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="accm_txn_complete_time"
+                      lineageId="Package\Accumalating Fact Table\Flat File Sort.Outputs[Sort Output].Columns[accm_txn_complete_time]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Accumalating Fact Table\Merge Join.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Merge Join.Inputs[Merge Join Right Input].Columns[SalesID]"
+                      cachedDataType="i4"
+                      cachedName="SalesID"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[SalesID]" />
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Merge Join.Inputs[Merge Join Right Input].Columns[accm_txn_create_time]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="accm_txn_create_time"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[accm_txn_create_time]" />
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Merge Join.Inputs[Merge Join Right Input].Columns[txn_process_time_hours]"
+                      cachedDataType="i4"
+                      cachedName="txn_process_time_hours"
+                      lineageId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output].Columns[txn_process_time_hours]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[accm_txn_complete_time]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[accm_txn_complete_time]"
+                      name="accm_txn_complete_time">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Accumalating Fact Table\Merge Join.Inputs[Merge Join Left Input].Columns[accm_txn_complete_time]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[accm_txn_create_time]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[accm_txn_create_time]"
+                      name="accm_txn_create_time">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Accumalating Fact Table\Merge Join.Inputs[Merge Join Right Input].Columns[accm_txn_create_time]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[txn_process_time_hours]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[txn_process_time_hours]"
+                      name="txn_process_time_hours">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Accumalating Fact Table\Merge Join.Inputs[Merge Join Right Input].Columns[txn_process_time_hours]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[SalesID]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[SalesID]"
+                      name="SalesID"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Accumalating Fact Table\Merge Join.Inputs[Merge Join Right Input].Columns[SalesID]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Accumalating Fact Table\Update FactSales"
+              componentClassID="Microsoft.OLEDBCommand"
+              contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+              name="Update FactSales"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">UPDATE FactSales
+SET accm_txn_complete_time = ?,
+txn_process_time_hours = ?
+where SalesId = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Accumalating Fact Table\Update FactSales.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[SASIRU\SQLDEVELOPER.DWBI_Assignment1_DW]"
+                  connectionManagerRefId="Package.ConnectionManagers[SASIRU\SQLDEVELOPER.DWBI_Assignment1_DW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Accumalating Fact Table\Update FactSales.Inputs[OLE DB Command Input]"
+                  errorOrTruncationOperation="Command Execution"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Command Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Update FactSales.Inputs[OLE DB Command Input].Columns[accm_txn_complete_time]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="accm_txn_complete_time"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Update FactSales.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      lineageId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[accm_txn_complete_time]" />
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Update FactSales.Inputs[OLE DB Command Input].Columns[txn_process_time_hours]"
+                      cachedDataType="i4"
+                      cachedName="txn_process_time_hours"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Update FactSales.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      lineageId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[txn_process_time_hours]" />
+                    <inputColumn
+                      refId="Package\Accumalating Fact Table\Update FactSales.Inputs[OLE DB Command Input].Columns[SalesID]"
+                      cachedDataType="i4"
+                      cachedName="SalesID"
+                      cachedSortKeyPosition="1"
+                      externalMetadataColumnId="Package\Accumalating Fact Table\Update FactSales.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      lineageId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output].Columns[SalesID]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Update FactSales.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      dataType="dbTimeStamp"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Update FactSales.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      dataType="i4"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Accumalating Fact Table\Update FactSales.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      dataType="i4"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Accumalating Fact Table\Update FactSales.Outputs[OLE DB Command Output]"
+                  exclusionGroup="1"
+                  name="OLE DB Command Output"
+                  synchronousInputId="Package\Accumalating Fact Table\Update FactSales.Inputs[OLE DB Command Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Accumalating Fact Table\Update FactSales.Outputs[OLE DB Command Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Command Error Output"
+                  synchronousInputId="Package\Accumalating Fact Table\Update FactSales.Inputs[OLE DB Command Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Update FactSales.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Update FactSales.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Accumalating Fact Table\Update FactSales.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Accumalating Fact Table\Update FactSales.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Accumalating Fact Table.Paths[CompletedRows]"
+              endId="Package\Accumalating Fact Table\Merge Join.Inputs[Merge Join Left Input]"
+              name="CompletedRows"
+              startId="Package\Accumalating Fact Table\Get Not NULL Complete time.Outputs[CompletedRows]" />
+            <path
+              refId="Package\Accumalating Fact Table.Paths[Derived Column Output]"
+              endId="Package\Accumalating Fact Table\Update FactSales.Inputs[OLE DB Command Input]"
+              name="Derived Column Output"
+              startId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Accumalating Fact Table.Paths[Flat File Source Output]"
+              endId="Package\Accumalating Fact Table\Flat File Sort.Inputs[Sort Input]"
+              name="Flat File Source Output"
+              startId="Package\Accumalating Fact Table\Flat File Source.Outputs[Flat File Source Output]" />
+            <path
+              refId="Package\Accumalating Fact Table.Paths[Merge Join Output]"
+              endId="Package\Accumalating Fact Table\Calculate txn_process_time_hrs.Inputs[Derived Column Input]"
+              name="Merge Join Output"
+              startId="Package\Accumalating Fact Table\Merge Join.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\Accumalating Fact Table.Paths[OLE DB Source Output]"
+              endId="Package\Accumalating Fact Table\FactSales Sort.Inputs[Sort Input]"
+              name="OLE DB Source Output"
+              startId="Package\Accumalating Fact Table\Load FactSales.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Accumalating Fact Table.Paths[Sort Output]"
+              endId="Package\Accumalating Fact Table\Get Not NULL Complete time.Inputs[Conditional Split Input]"
+              name="Sort Output"
+              startId="Package\Accumalating Fact Table\Flat File Sort.Outputs[Sort Output]" />
+            <path
+              refId="Package\Accumalating Fact Table.Paths[Sort Output1]"
+              endId="Package\Accumalating Fact Table\Merge Join.Inputs[Merge Join Right Input]"
+              name="Sort Output"
+              startId="Package\Accumalating Fact Table\FactSales Sort.Outputs[Sort Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="192.8,41.6"
+          Id="Package\Accumalating Fact Table"
+          TopLeft="122.142857402867,69.5882352331209" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Accumalating Fact Table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="144.8,41.6"
+          Id="Package\Accumalating Fact Table\FactSales Sort"
+          TopLeft="368.571429356021,97.1176469736961" />
+        <NodeLayout
+          Size="148,41.6"
+          Id="Package\Accumalating Fact Table\Load FactSales"
+          TopLeft="362.85714362957,32.1176470306712" />
+        <NodeLayout
+          Size="150.4,41.6"
+          Id="Package\Accumalating Fact Table\Flat File Source"
+          TopLeft="157.857143193179,31.3529411489885" />
+        <NodeLayout
+          Size="129.6,41.6"
+          Id="Package\Accumalating Fact Table\Merge Join"
+          TopLeft="303.571429217652,242.411764493399" />
+        <NodeLayout
+          Size="137.6,41.6"
+          Id="Package\Accumalating Fact Table\Flat File Sort"
+          TopLeft="167.14285749866,99.4117646187441" />
+        <NodeLayout
+          Size="227.2,41.6"
+          Id="Package\Accumalating Fact Table\Calculate txn_process_time_hrs"
+          TopLeft="261.428571985084,312.764705608203" />
+        <NodeLayout
+          Size="214.4,41.6"
+          Id="Package\Accumalating Fact Table\Get Not NULL Complete time"
+          TopLeft="132.142857424155,172.611764595954" />
+        <NodeLayout
+          Size="159.2,41.6"
+          Id="Package\Accumalating Fact Table\Update FactSales"
+          TopLeft="292.857143480559,380.552940943879" />
+        <EdgeLayout
+          Id="Package\Accumalating Fact Table.Paths[Sort Output1]"
+          TopLeft="440.971429356021,138.717646973696">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-52.3333334717016,103.694117519703"
+              Start="0,0"
+              End="-52.3333334717016,96.1941175197028">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,57.4577330665556" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,57.4577330665556"
+                    Point2="0,61.4577330665556"
+                    Point3="-4,61.4577330665556" />
+                  <mssgle:LineSegment
+                    End="-48.3333334717016,61.4577330665556" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-48.3333334717016,61.4577330665556"
+                    Point2="-52.3333334717016,61.4577330665556"
+                    Point3="-52.3333334717016,65.4577330665556" />
+                  <mssgle:LineSegment
+                    End="-52.3333334717016,96.1941175197028" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Accumalating Fact Table.Paths[Sort Output]"
+          TopLeft="237.642857461407,141.011764618744">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.59999997721"
+              Start="0,0"
+              End="0,24.09999997721">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.09999997721" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Accumalating Fact Table.Paths[OLE DB Source Output]"
+          TopLeft="438.914286492795,73.7176470306712">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.399999943025"
+              Start="0,0"
+              End="0,15.899999943025">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.899999943025" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Accumalating Fact Table.Paths[Merge Join Output]"
+          TopLeft="371.700000601368,284.011764493399">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28.7529411148035"
+              Start="0,0"
+              End="0,21.2529411148035">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.2529411148035" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Accumalating Fact Table.Paths[Flat File Source Output]"
+          TopLeft="234.50000034592,72.9529411489885">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.4588234697556"
+              Start="0,0"
+              End="0,18.9588234697556">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.9588234697556" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Accumalating Fact Table.Paths[Derived Column Output]"
+          TopLeft="373.742857732822,354.364705608203">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.1882353356761"
+              Start="0,0"
+              End="0,18.6882353356761">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.6882353356761" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Accumalating Fact Table.Paths[CompletedRows]"
+          TopLeft="239.342857424155,214.211764595954">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="108.761905126831,28.1999998974449"
+              Start="0,0"
+              End="108.761905126831,20.6999998974449">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,12.7136584758027" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12.7136584758027"
+                    Point2="0,16.7136584758027"
+                    Point3="4,16.7136584758027" />
+                  <mssgle:LineSegment
+                    End="104.761905126831,16.7136584758027" />
+                  <mssgle:CubicBezierSegment
+                    Point1="104.761905126831,16.7136584758027"
+                    Point2="108.761905126831,16.7136584758027"
+                    Point3="108.761905126831,20.7136584758027" />
+                  <mssgle:LineSegment
+                    End="108.761905126831,20.6999998974449" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="18.3508549071654,21.7136584758027,72.0601953125,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Accumalating Fact Table\Load FactSales">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
