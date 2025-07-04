@@ -79,10 +79,10 @@ Developed multiple interactive dashboards with advanced features:
 
 ## 📚 Documentation
 
-For a deeper understanding, refer to the documentation in the `/documents` folder:
+For a deeper understanding, refer to the documentation in the `/Documents` folder:
 
-- 📄 `assignment_1.pdf` – Initial project scope and planning  
-- 📄 `assignment_2.pdf` – Detailed implementation and results
+- 📄 `assignment_1.pdf` – Detailed implementation of the ETL processes
+- 📄 `assignment_2.pdf` – Detailed implementation of Cube development, OLAP operations and PowerBI reports.
 
 ---
 
